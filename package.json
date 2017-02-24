@@ -7,12 +7,13 @@
     "npm": "3.10.3"
   },
   "dependencies": {
+    "basicauth-middleware": "^2.0.0",
     "body-parser": "latest",
     "bower": "^1.7.9",
     "connect-livereload": "^0.6.0",
+    "csvtojson": "^1.1.4",
     "del": "^2.1.0",
     "express": "latest",
-    "csvtojson": "^1.1.4",
     "gulp": "^3.5.6",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-concat": "^2.2.0",
@@ -50,12 +51,12 @@
     "protractor": "protractor e2e-tests/protractor.conf.js"
   },
   "devDependencies": {
+    "basicauth-middleware": "^2.0.0",
     "body-parser": "latest",
     "bower": "^1.7.2",
+    "csvtojson": "^1.1.4",
     "del": "^2.1.0",
     "express": "latest",
-    "csvtojson": "^1.1.4",
-    "morgan": "^1.8.1",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-cssnano": "^2.0.0",
     "gulp-filter": "^3.0.1",
@@ -67,6 +68,7 @@
     "gulp-util": "^2.2.14",
     "gulp-watch": "^4.3.5",
     "mongoose": "latest",
+    "morgan": "^1.8.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "rfr": "^1.2.3",

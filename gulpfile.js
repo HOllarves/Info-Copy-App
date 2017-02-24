@@ -46,7 +46,6 @@ var express = require('express'),
 var server = express()
 server.set('port', (process.env.PORT || 3000))
 server.use(express.static('./build'))
-server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({
     extended: false
 }))
@@ -149,37 +148,54 @@ createCopyTasks('js', paths.js, paths.build, function (task) {
         .pipe(plumber())
         .pipe(ngAnnotate())
 })
+
 //Compiling assets
+
 createCopyTasks('assets', paths.assets, paths.build + "/assets")
 createCopyTasks('favicon', 'app/*.png', paths.build)
+
 //Templates
+
 createCopyTasks('templates', paths.templates, paths.build)
+
 //Build task
+
 gulp.task('build', ['sass', 'js', 'assets', 'favicon', 'templates', 'index'])
+
 //Watch for changes in scripts, sass files and templates
+
 gulp.task('watch', ['js-watch', 'assets-watch', 'templates-watch'], function () {
     gulp.watch(paths.sass, ['sass'])
     gulp.watch(paths.js.concat(['./app/index.html']), ['index'])
 })
+
 //Dependency installer
+
 gulp.task('install', shell.task(['bower install']))
+
 //Clean build directory
+
 gulp.task('clean', function () {
     del.sync([paths.build + '/**', '!' + paths.build, '!' + paths.build + '/lib/**'])
 })
+
 //Setting environment to development
+
 gulp.task('env-dev', function () {
     gulp.src(paths.settings + '/settings.dev.js')
         .pipe(rename('settings.js'))
         .pipe(gulp.dest(paths.build))
 })
+
 //Setting environment to staging
 gulp.task('env-staging', function () {
     gulp.src(paths.settings + '/settings.staging.js')
         .pipe(rename('settings.js'))
         .pipe(gulp.dest(paths.build))
 })
+
 //Setting environment to production
+
 gulp.task('env-production', function () {
     gulp.src(paths.settings + '/settings.production.js')
         .pipe(rename('settings.js'))
