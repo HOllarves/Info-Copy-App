@@ -1,10 +1,6 @@
-#Angular Scaffolding App
+#Info Copy
 
-To get it working, simply
-
-`npm install`
-`gulp install`
-
-Then setting up your environment (ex: `gulp env-dev`)
-
-And finally: `gulp serve`
+##Tech Stack
+- Angular 1.5.9
+- Express 4
+- Gulp 3.5
