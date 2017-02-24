@@ -4,7 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     csvConverter = require('csvtojson'),
     basicAuth = require('basicauth-middleware'),
-    basicAuthMiddleware = basicAuth('admin', 'supersecret'),
+    basicAuthMiddleware = basicAuth('admin', 'x23i7EzOkdW8?&9'),
     textParser = bodyParser.text(),
     CsvService = express.Router()
 
