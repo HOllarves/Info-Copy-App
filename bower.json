@@ -1,0 +1,12 @@
+{
+  "name": "angular-scaffold",
+  "private": "true",
+  "devDependencies": {
+    "angular": "~1.4.8",
+    "underscore": "~1.8.3",
+    "angular-underscore-module": "~1.0.3",
+    "angular-ui-router": "~0.2.15",
+    "Materialize": "materialize#~0.97.5",
+    "angular-sanitize": "~1.4.8"
+  }
+}

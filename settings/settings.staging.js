@@ -1,0 +1,3 @@
+AppSettings = {
+  api_url: ""
+};

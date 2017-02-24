@@ -1,0 +1,10 @@
+.git
+log/*
+.rvmrc
+.idea
+db/*.sqlite3
+.DS_Store
+.iterm
+
+build
+node_modules

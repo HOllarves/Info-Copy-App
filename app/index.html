@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="App" ng-strict-di>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"/>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!-- compiled css output -->
+        <link href="css/app.css" rel="stylesheet">
+
+        <!-- App Settings file (source located under app_settings). Copied by gulp's env-dev/env-staging tasks -->
+        <script src="settings.js"></script>
+
+        <!-- Angular -->
+        <script src="lib/angular/angular.min.js"></script>
+        <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+
+        <!-- Underscore.js -->
+        <script src="lib/underscore/underscore-min.js"></script>
+        <script src="lib/angular-underscore-module/angular-underscore-module.js"></script>
+
+        <!-- Router -->
+        <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+        <!-- JQuery -->
+        <script src="lib/jquery/dist/jquery.min.js"></script>
+
+        <!-- Materialize.js -->
+        <link href="assets/css/materialize.min.css" rel="stylesheet">
+        <script src="lib/Materialize/dist/js/materialize.min.js"></script>
+
+        <!-- inject:js -->
+        <!-- endinject -->
+
+        <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
+        <title ng-bind="title">Title</title>
+    </head>
+
+    <body>
+        <h1>It's working!</h1>
+        <div ui-view="root-view"></div>
+    </body>
+</html>
