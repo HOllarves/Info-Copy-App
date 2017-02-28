@@ -9,15 +9,25 @@ var express = require('express'),
     CsvService = express.Router()
 
 CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
+    console.log("Request = ", req)
     csvConverter({
             noheader: false,
             headers: ['tracking_number', 'amount', 'user_id', 'status']
         }).fromString(req.body)
+        .on('done', (err) => {
+            if (err) {
+                res.json({
+                    status: 400,
+                    body: "Parsing error " + err
+                })
+            }
+        })
         .on('end_parsed', (jsonArr) => {
             res.json({
                 status: 200,
                 body: jsonArr
             })
+            console.log("Response = ", res)
         })
 })
 
