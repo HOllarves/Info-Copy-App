@@ -1,5 +1,5 @@
 //Gulp core files
-var gulp = require('gulp'),
+const gulp = require('gulp'),
     gutil = require('gulp-util'),
     sass = require('gulp-sass'),
     nano = require('gulp-cssnano'),
@@ -16,7 +16,7 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber')
 
 //Application paths
-var paths = {
+const paths = {
     sass: ['app/**/*.scss'],
     js: ['app/**/*.js'],
     assets: ['app/assets/**/*'],
@@ -32,18 +32,18 @@ var paths = {
  */
 
 //Express related variables
-var express = require('express'),
-    lr = require('tiny-lr'),
+const express = require('express'),
+    lr = require('tiny-lr')(),
     morgan = require('morgan'),
-    lrserver = lr(),
     mongoose = require('mongoose'),
     csvConverter = require('csvtojson'),
     bodyParser = require('body-parser'),
-    csvService = require('./csv-service/service')
+    csvService = require('./csv-service/service'),
+    livereload = require('gulp-livereload')
 
 
 //Instantiating express server
-var server = express()
+const server = express()
 server.set('port', (process.env.PORT || 3000))
 server.use(express.static('./build'))
 server.use(bodyParser.urlencoded({
@@ -54,14 +54,15 @@ server.use(bodyParser.urlencoded({
 morgan('tiny')
 
 //Serving express server
-gulp.task('serve', ['build', 'watch', 'env-production'], function () {
-    server.listen(server.get('port'), function () {
+gulp.task('serve', ['build', 'watch', 'env-dev'], () => {
+    server.listen(server.get('port'), () => {
         console.log('App running on port', server.get('port'))
     })
-    // mongoose.connect('mongodb://lv-user:testing@ds143737.mlab.com:43737/heroku_9fvbqpbv', function (err) {
-    //     if (err) console.log(err)
-    //     else console.log('Successfully conected to DB')
-    // })
+        // Database connection
+        /* mongoose.connect('mongodb://lv-user:testing@ds143737.mlab.com:43737/heroku_9fvbqpbv', function (err) {
+             if (err) console.log(err)
+             else console.log('Successfully conected to DB')
+        }) */
 })
 
 
@@ -72,15 +73,14 @@ gulp.task('serve', ['build', 'watch', 'env-production'], function () {
 
 server.use('/csv', csvService)
 
-
-gulp.task("heroku:production", ['env-production', 'serve'], function () {
+gulp.task("heroku:production", ['env-production', 'serve'], () => {
     console.log('Compiling app') // the task does not need to do anything.
 })
 
 gulp.task('default', ['sass', 'js'])
 
 //Sass compiler
-gulp.task('sass', function (done) {
+gulp.task('sass', (done) => {
     gulp.src('./app/app.scss')
         .pipe(sass())
         .on('error', sass.logError)
@@ -90,11 +90,12 @@ gulp.task('sass', function (done) {
             extname: '.min.css'
         }))
         .pipe(gulp.dest(paths.build + '/css/'))
+        .pipe(livereload())
         .on('end', done)
 })
 
 //Index injector of dependency files
-gulp.task('index', function () {
+gulp.task('index', () => {
     gulp.src('./app/index.html')
         .pipe(
             inject(
@@ -106,15 +107,16 @@ gulp.task('index', function () {
             )
         )
         .pipe(gulp.dest(paths.build))
+        .pipe(livereload())
 })
 
 function createCopyTasks(taskName, source, dest, customTaskCallback) {
     function baseCopyTask(extendBaseTaskCallback) {
-        var myFilter = filter(function (file) {
+        let myFilter = filter((file) => {
             return file.event === 'unlink'
         })
 
-        var baseTask = gulp.src(source)
+        let baseTask = gulp.src(source)
 
         if (extendBaseTaskCallback) {
             baseTask = extendBaseTaskCallback(baseTask)
@@ -132,71 +134,69 @@ function createCopyTasks(taskName, source, dest, customTaskCallback) {
             }))
     }
 
-    gulp.task(taskName, function () {
+    gulp.task(taskName, () => {
         baseCopyTask()
     })
 
-    gulp.task(taskName + "-watch", function () {
-        baseCopyTask(function (task) {
+    gulp.task(taskName + "-watch", () => {
+        baseCopyTask((task) => {
             return task.pipe(watch(source))
         })
     })
 }
 
-createCopyTasks('js', paths.js, paths.build, function (task) {
+createCopyTasks('js', paths.js, paths.build, (task) => {
     return task
         .pipe(plumber())
         .pipe(ngAnnotate())
+        .pipe(livereload())
 })
 
 //Compiling assets
-
 createCopyTasks('assets', paths.assets, paths.build + "/assets")
 createCopyTasks('favicon', 'app/*.png', paths.build)
 
 //Templates
-
 createCopyTasks('templates', paths.templates, paths.build)
 
 //Build task
-
 gulp.task('build', ['sass', 'js', 'assets', 'favicon', 'templates', 'index'])
 
-//Watch for changes in scripts, sass files and templates
+console.log('fuck')
 
-gulp.task('watch', ['js-watch', 'assets-watch', 'templates-watch'], function () {
+//Watch for changes in scripts, sass files and templates
+gulp.task('watch', ['js-watch', 'assets-watch', 'templates-watch'], () => {
     gulp.watch(paths.sass, ['sass'])
     gulp.watch(paths.js.concat(['./app/index.html']), ['index'])
+    livereload.listen({start: true});
 })
 
 //Dependency installer
-
 gulp.task('install', shell.task(['bower install']))
 
 //Clean build directory
-
-gulp.task('clean', function () {
+gulp.task('clean', () => {
     del.sync([paths.build + '/**', '!' + paths.build, '!' + paths.build + '/lib/**'])
 })
 
 //Setting environment to development
-
-gulp.task('env-dev', function () {
+gulp.task('env-dev', () => {
     gulp.src(paths.settings + '/settings.dev.js')
         .pipe(rename('settings.js'))
         .pipe(gulp.dest(paths.build))
+    console.log('launching in development mode')
 })
 
 //Setting environment to staging
-gulp.task('env-staging', function () {
+gulp.task('env-staging', () => {
     gulp.src(paths.settings + '/settings.staging.js')
         .pipe(rename('settings.js'))
         .pipe(gulp.dest(paths.build))
+    console.log('launching in staging mode')
 })
 
 //Setting environment to production
-
-gulp.task('env-production', function () {
+gulp.task('env-production', () => {
     gulp.src(paths.settings + '/settings.production.js')
         .pipe(rename('settings.js'))
         .pipe(gulp.dest(paths.build))

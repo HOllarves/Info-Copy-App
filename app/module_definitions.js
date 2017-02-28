@@ -1,9 +1,4 @@
-//angular.module('App.module', []);
+"use strict";
 
-
-/* Example 
-angular.module('socialdoors.services', []);
-angular.module('socialdoors.interceptors', []);
-angular.module('socialdoors.event_details.directives', []);
-angular.module('socialdoors.directives', []);
-*/
+angular.module("infoCopy.routes", ['ui.router'])
+angular.module("infoCopy.controllers", [])

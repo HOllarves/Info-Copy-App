@@ -1,12 +1,12 @@
 {
-  "name": "angular-scaffold",
+  "name": "info-copy",
   "private": "true",
   "devDependencies": {
-    "angular": "~1.4.8",
-    "underscore": "~1.8.3",
-    "angular-underscore-module": "~1.0.3",
-    "angular-ui-router": "~0.2.15",
+    "angular": "~1.6.2",
     "Materialize": "materialize#~0.97.5",
-    "angular-sanitize": "~1.4.8"
+    "angular-sanitize": "~1.6.0",
+    "angular-ui-router": "^0.4.2",
+    "underscore": "^1.8.3",
+    "angular-underscore": "^0.5.0"
   }
 }
