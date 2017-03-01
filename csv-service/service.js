@@ -9,26 +9,32 @@ var express = require('express'),
     CsvService = express.Router()
 
 CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
-    console.log("Request = ", req.body)
-    csvConverter({
-            noheader: false,
-            headers: ['tracking_number', 'amount', 'user_id', 'status']
-        }).fromString(req.body)
-        .on('done', (err) => {
-            if (err) {
-                res.json({
-                    status: 400,
-                    body: "Parsing error " + err
-                })
-            }
+    if (!req.body || req.body == {}) {
+        res.json({
+            status: 400,
+            message: "The body is empty"
         })
-        .on('end_parsed', (jsonArr) => {
-            res.json({
-                status: 200,
-                body: jsonArr
+    } else {
+        csvConverter({
+                noheader: false,
+                headers: ['tracking_number', 'amount', 'user_id', 'status']
+            }).fromString(req.body)
+            .on('done', (err) => {
+                if (err) {
+                    res.json({
+                        status: 400,
+                        body: "Parsing error " + err
+                    })
+                }
             })
-            console.log("Response = ", res)
-        })
+            .on('end_parsed', (jsonArr) => {
+                res.json({
+                    status: 200,
+                    body: jsonArr
+                })
+                console.log("Response = ", res)
+            })
+    }
 })
 
 /**
