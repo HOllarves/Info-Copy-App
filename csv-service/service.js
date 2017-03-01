@@ -9,7 +9,7 @@ var express = require('express'),
     CsvService = express.Router()
 
 CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
-    console.log("Request = ", req)
+    console.log("Request = ", req.body)
     csvConverter({
             noheader: false,
             headers: ['tracking_number', 'amount', 'user_id', 'status']
