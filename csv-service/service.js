@@ -9,12 +9,15 @@ var express = require('express'),
     CsvService = express.Router()
 
 CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
-    if (!req.body || req.body == {}) {
+    console.log("Body = ", Object.keys(req.body).length);
+    if (!req.body || Object.keys(req.body).length === 0) {
+        console.log('Here!');
         res.json({
             status: 400,
             message: "The body is empty"
         })
     } else {
+        console.log('here! shit')
         csvConverter({
                 noheader: false,
                 headers: ['tracking_number', 'amount', 'user_id', 'status']
