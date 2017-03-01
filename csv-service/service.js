@@ -10,7 +10,7 @@ var express = require('express'),
 
 CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
     if (!req.body || Object.keys(req.body).length === 0) {
-        res.send("Empty body");
+        res.send("Empty body, Content-Type " + req.get('content-type') + " " + "Authorization: " + req.get('Authorization'));
     } else {
         csvConverter({
                 noheader: false,
