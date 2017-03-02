@@ -37,8 +37,9 @@ const express = require('express'),
     morgan = require('morgan'),
     mongoose = require('mongoose'),
     csvConverter = require('csvtojson'),
+    auth = require('./server/routes/auth.js'),
     bodyParser = require('body-parser'),
-    csvService = require('./csv-service/service'),
+    csvService = require('./server/services/csv.service.js'),
     livereload = require('gulp-livereload')
 
 
@@ -50,6 +51,11 @@ server.use(bodyParser.urlencoded({
     extended: false
 }))
 
+//Initializing passport
+require('./server/routes/config/passport')(server)
+//Initializing auth routes
+server.use('/auth', auth)
+
 //morgan
 morgan('tiny')
 
@@ -58,13 +64,12 @@ gulp.task('serve', ['build', 'watch', 'env-dev'], () => {
     server.listen(server.get('port'), () => {
         console.log('App running on port', server.get('port'))
     })
-        // Database connection
-        /* mongoose.connect('mongodb://lv-user:testing@ds143737.mlab.com:43737/heroku_9fvbqpbv', function (err) {
-             if (err) console.log(err)
-             else console.log('Successfully conected to DB')
-        }) */
+    // Database connection
+     mongoose.connect('mongodb://info-admin:W5ssjwLbesAfL9Ku@ds113680.mlab.com:13680/heroku_shx5d6hm', function (err) {
+         if (err) console.log(err)
+         else console.log('Successfully conected to DB')
+    })
 })
-
 
 /**
  * ROUTES
@@ -168,7 +173,9 @@ console.log('fuck')
 gulp.task('watch', ['js-watch', 'assets-watch', 'templates-watch'], () => {
     gulp.watch(paths.sass, ['sass'])
     gulp.watch(paths.js.concat(['./app/index.html']), ['index'])
-    livereload.listen({start: true});
+    livereload.listen({
+        start: true
+    });
 })
 
 //Dependency installer
