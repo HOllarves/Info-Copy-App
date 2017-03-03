@@ -25,11 +25,12 @@ CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
                 }
             })
             .on('end_parsed', (jsonArr) => {
-                res.json({
-                    status: 200,
-                    body: jsonArr
-                })
-                console.log("Response = ", res)
+                if (jsonArr) {
+                    res.sned("Success!")
+                    console.log(jsonArr)
+                } else {
+                    res.send("Error parsing")
+                }
             })
     }
 })
