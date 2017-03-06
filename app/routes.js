@@ -39,7 +39,7 @@ angular.module("infoCopy.routes")
     .run(function ($rootScope) {
         $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
             if (toState.title) {
-                $rootScope.title = toState.title;
+                $rootScope.title = toState.title
             }
         })
     })
