@@ -26,7 +26,7 @@ CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
             })
             .on('end_parsed', (jsonArr) => {
                 if (jsonArr) {
-                    res.send("Success!")
+                    res.send("Success!" + jsonArr)
                     console.log(jsonArr)
                 } else {
                     res.send("Error parsing")
