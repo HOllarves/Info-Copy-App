@@ -18,25 +18,15 @@ CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
             }).fromString(req.body)
             .on('done', (err) => {
                 if (err) {
-                    res.json({
-                        status: 400,
-                        body: "Parsing error " + err
-                    })
+                    res.send("Parsing error")
                 }
             })
             .on('end_parsed', (jsonArr) => {
                 if (jsonArr) {
-                    res.json({
-                        status: 200,
-                        body: jsonArr
-                    })
+                    res.send("Success!")
                 } else {
-                    res.json({
-                        status: 400,
-                        message: "Invalid data to be parsed"
-                    })
+                    res.send("Invalid data!")
                 }
-
             })
     }
 })
