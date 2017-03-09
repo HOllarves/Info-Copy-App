@@ -5,30 +5,15 @@ var express = require('express'),
     csvConverter = require('csvtojson'),
     basicAuth = require('basicauth-middleware'),
     basicAuthMiddleware = basicAuth('admin', 'x23i7EzOkdW8?&9'),
-    textParser = bodyParser.text(),
+    jsonParser = bodyParser.json(),
     CsvService = express.Router()
 
-CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
+CsvService.post('/orders', basicAuthMiddleware, jsonParser, (req, res) => {
     if (!req.body || Object.keys(req.body).length === 0) {
         res.send("Empty or invalid body data")
     } else {
-        csvConverter({
-                noheader: false,
-                headers: ['tracking_number', 'amount', 'user_id', 'status']
-            }).fromString(req.body)
-            .on('done', (err) => {
-                if (err) {
-                    res.send("Parsing error")
-                }
-            })
-            .on('end_parsed', (jsonArr) => {
-                if (jsonArr) {
-                    console.log(jsonArr);
-                    res.send("Success!")
-                } else {
-                    res.send("Invalid data!")
-                }
-            })
+        res.send("Success");
+        console.log("Body = ", req.body)
     }
 })
 
