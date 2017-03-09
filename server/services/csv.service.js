@@ -23,6 +23,7 @@ CsvService.post('/orders', basicAuthMiddleware, textParser, (req, res) => {
             })
             .on('end_parsed', (jsonArr) => {
                 if (jsonArr) {
+                    console.log(jsonArr);
                     res.send("Success!")
                 } else {
                     res.send("Invalid data!")
