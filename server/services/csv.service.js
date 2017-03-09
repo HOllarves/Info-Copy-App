@@ -12,7 +12,7 @@ CsvService.post('/orders', basicAuthMiddleware, jsonParser, (req, res) => {
     if (!req.body || Object.keys(req.body).length === 0) {
         res.send("Empty or invalid body data")
     } else {
-        res.send("Success");
+        res.send("Success " + JSON.stringify(req.body))
         console.log("Body = ", req.body)
     }
 })
